@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if object.get_bill_amount %}
+<div class="container">
+  <h1 class="text-center mb-3 text-success mt-5">Your Cart</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">S.no</th>
+        <th scope="col">Item Title</th>
+        <th scope="col">Price (per/item)</th>
+        <th scope="col">Quantity</th>
+        <th scope="col" style="text-align: right;">Total price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order_item in object.items.all %}  
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ order_item.item.title }}</td>
+        {% if order_item.item.discount_price %}
+            <td>Rs {{ order_item.item.discount_price }}</td>
+        {% else %}
+            <td>Rs {{ order_item.item.price }}</td>
+        {% endif %}
+        <td>
+            <a href="/remove-single-item-from-cart/{{ order_item.item.id }}" class="btn btn-outline-qtn btn-sm m-0"><i class="fas fa-minus"></i></a> 
+            <span class="ml-3 mr-3" style="font-size: 12pt;">{{ order_item.quantity }}</span> 
+            <a href="/add-single-to-cart/{{ order_item.item.id }}" class="btn btn-outline-qtn btn-sm m-0"><i class="fas fa-plus"></i></a>
+        </td>
+        <td class="text-right">Rs {{ order_item.get_total_price }}</td>
+      </tr>
+      {% endfor %}
+      
+      <tr>
+        <th colspan="4">Order Total</th>
+        {% if object.coupon %}
+          <th class="text-right">Rs {{ object.get_bill_amount }} (Saved {{object.coupon.discount_percentage}}%) </th>
+
+        {% else %}
+          <th class="text-right">Rs {{ object.get_bill_amount }}</th>
+        {% endif %}
+      </tr>
+      <tr><td colspan="5" class=" border border-0"></td></tr>
+      <tr>
+        <td colspan="5" class="text-center"><a class="btn btn-danger mr-5" href="/checkout-system/">CheckOut</a>
+          <a href="/reset-cart/{{ object.id }}" class="btn btn-cyan mr-5">Empty Cart</a>
+          <a href="/" class="btn btn-unique">Continue Shopping</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+{% else %}
+<img src="{% static 'item_img/empty-cart.png' %}" alt="...">
+<a href="/" class="btn btn-default">Continue Shopping</a>
+{% endif %}
+{% endblock %}

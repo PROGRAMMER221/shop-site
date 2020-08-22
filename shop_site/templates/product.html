@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+  
+
+
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+      <div class="row wow fadeIn">
+
+        <div class="col-md-6 mb-4 overlay view zoom">
+
+          <img src="{{ object.item_image.url }}" class="img-thumbnail" alt="">
+
+        </div>
+
+        <div class="col-md-6 mb-4">
+
+          <div class="p-4">
+
+            <div class="mb-3 h5">
+              <a href="">
+                <span class="badge blue mr-1">{{ object.category }}</span>
+              </a>
+              <a href="">
+                <span class="badge green mr-1">{{ object.sub_category }}</span>
+              </a>
+            </div>
+            {% if object.discount_price %}
+            <p class="lead">
+              <span class="mr-1">
+                <del><i class="fas fa-rupee-sign"></i> {{ object.price }}</del>
+              </span>
+              <span><i class="fas fa-rupee-sign"></i> {{ object.discount_price }}</span>
+            </p>
+            {% else %}
+            <p class="lead">
+              <span><i class="fas fa-rupee-sign"></i> {{ object.price }}</span>
+            </p>
+            {% endif %}
+
+            <p class="lead font-weight-bold">Description</p>
+
+            <p>{{ object.description }}</p>
+            
+            {% if product_quantity is 0 %}
+            <a class="btn btn-primary btn-md my-0 p" href="/add-to-cart/{{ object.id }}">Add To Cart
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+            {% else %}
+            <a href="/minus-quantity/{{ object.id }}" class="btn btn-outline-qtn btn-sm m-0"><i class="fas fa-minus"></i></a> 
+            <span class="ml-3 mr-3" style="font-size: 12pt;">{{ product_quantity }}</span> 
+            <a href="/plus-quantity/{{ object.id }}" class="btn btn-outline-qtn btn-sm m-0"><i class="fas fa-plus"></i></a>
+            {% endif %}
+            
+            
+            <a class="btn btn-danger btn-md my-0 p" href="/remove-from-cart/{{ object.id }}">Remove From Cart
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+
+          </div>
+        </div>
+      </div>
+
+{% endblock %}

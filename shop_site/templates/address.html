@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<main>
+    <div class="container wow fadeIn">
+
+      <h2 class="my-4 h2 text-center">Checkout form</h2>
+
+      <div class="row">
+        <div class="col-8">
+ 
+            
+            <form class="card-body" method="POST" action="/address-select/">
+                {% csrf_token %}
+                {% for address in address %}
+                <ul class="list-group mb-3 z-depth-1">
+
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>
+                          <ul style="list-style-type: none;">
+                            <li class="h4 font-weight-bold">{{address.user}}</li>
+                            <li>{{address.street_address}}</li>
+                            <li>{{address.apartment_address}}</li>
+                            <li>{{address.country}} {{address.zip}}</li>
+                          </ul>
+                        </span>
+                      <div>
+                        <input type="radio" name="get_address" value="{{address.id}}" required>
+                      </div>
+                    </li>
+
+                  </ul>
+                  {% endfor %}
+                
+                <button type="submit" class="btn btn-outline-primary">Continue</button><br>
+                
+                <a href="/checkout/">Add New Address</a>
+            </form>
+
+        </div>
+        <div class="col-4">
+          {% include 'cart_snipet.html' %}
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+{% endblock %}

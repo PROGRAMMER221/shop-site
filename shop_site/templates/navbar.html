@@ -1,0 +1,73 @@
+{% load cart_template_tags %}
+<nav class="navbar navbar-expand-lg navbar-light white h5">
+    <div class="container">
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link waves-effect font-weight-bold text-danger" href="/">E-Commerce</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="/">Home</a>
+          </li>
+          {% if request.user.is_authenticated %}
+          {% if request.user.is_superuser %}
+          <li class="nav-item ml-2 dropdown">
+            
+              <span class="nav-link">Admin Panel</span>
+              <div class="dropdown-content">
+                <a href="/add-item/" class="border-top border-danger">Add Item</a>
+                <a href="/add-category/">Add Category</a>
+                <a href="/add-subcategory/">Add SubCategory</a>
+                <a href="/add-coupon/">Add Coupon</a>
+              </div>
+            
+          </li>
+          <li class="nav-item ml-2">
+            <a class="nav-link waves-effect nav-bar-link" href="/data-view/">
+              <span>Data Export</span>
+            </a>
+          </li>
+          {% endif %}
+          <li class="nav-item ml-2">
+            <a class="nav-link waves-effect nav-bar-link" href="/order-history/">
+              <span class="">Order History</span>
+            </a>
+          </li>
+          
+          {% endif %}
+          
+        </ul>
+
+        <!-- Right -->
+        <ul class="navbar-nav nav-flex-icons">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item nav-bar-link">
+            <a class="nav-link waves-effect" href="/order-summary/">
+              <span class="badge blue z-depth-1 mr-1">{{ request.user|cart_item_count }}</span>
+              <i class="fas fa-shopping-cart text-danger"></i>
+              <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+            </a>
+          </li>
+          <li class="nav-item ml-2">
+            <a class="nav-link waves-effect nav-bar-link" href="/accounts/logout/">
+              <span class="">Logout</span>
+            </a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link waves-effect nav-bar-link" href="/accounts/login/">
+              <span class="">SignIn</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect nav-bar-link" href="/accounts/signup/">
+              <span class="">SignUp</span>
+            </a>
+          </li>
+          {% endif %}          
+        </ul>
+      </div>
+    </div>
+  </nav>

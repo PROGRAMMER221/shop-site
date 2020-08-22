@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Dispatch Name</th>
+                <th scope="col">Date of Dispatch</th>
+                <th scope="col">Date Of Delivery</th>
+                <th scope="col">Ordered Items</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for disp in dispatch %}
+            <tr>
+                <td>{{disp.transpoter_name}}</td>
+                <td>{{disp.dispatch_date}}</td>
+                <td>{{disp.delivery_date}}</td>
+                <td>
+                    <ul class="list-group list-group-flush">
+                        {% for ord in disp.order.items.all %}
+                        <li class="list-group-item">{{ord.item.title}}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+    <div class="container-fluid">
+        <p class="h2 text-center mt-5 mb-3">Order history</p>
+        <div class="table-responsive text-nowrap">
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">S.No</th>
+                  <th scope="col">Ordered Items</th>
+                  <th scope="col">Ordered Date</th>
+                  <th scope="col">Shipped To</th>
+                  <th scope="col">Coupon Used</th>
+                  <th scope="col">Amount Paid</th>
+                  {% if request.user.is_superuser %}
+                  <th scope="col">Invoice</th>
+                  <th scope="col">Dispatch</th>
+                  {% endif %}
+                  <th scope="col">Delivery Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ord in order %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>
+                        <ul style="list-style-type: none;" class="font-weight-normal">
+                            {% for order_item in ord.items.all %}
+                            <li>{{order_item.item.title}} x {{order_item.quantity}}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ord.start_date}}</td>
+                    <td>
+                        <ul style="list-style-type: none;" class="font-weight-normal">
+                            <li>{{ord.shipping_address.street_address}}</li>
+                            <li>{{ord.shipping_address.apartment_address}}</li>
+                            <li>{{ord.shipping_address.country}} {{ord.shipping_address.zip}}</li>
+                        </ul>
+                    </td>
+                    <td>{{ord.coupon}}</td>
+                    <td>Rs {{ord.payment.amount}}</td>
+                    {% if request.user.is_superuser %}
+                    {% if inv_array %}
+                    
+                    {% if ord.id in inv_array %}
+                    
+                    <td><button class="btn-sm btn-outline-danger" onclick="location.href='/invoice-view/{{ord.id}}/'">Check Invoice</button></td>
+                    
+                    {% else %}
+                    <td><button onclick="location.href='/invoice/{{ord.id}}/'" class="btn-sm btn-outline-success">Create Invoice</button></td>
+                    {% endif %}
+                    
+                    {% else %}
+                    <td><button onclick="location.href='/invoice/{{ord.id}}/'" class="btn-sm btn-outline-success">Create Invoice</button></td>
+                    {% endif %}
+
+                    {% if disp_array %}
+                  
+                    {% if ord.id in disp_array %}
+                    <td><button class="btn-sm btn-outline-danger" onclick="location.href='/dispatch-view/{{ord.id}}/'">Check Dispatch</button></td>
+                    {% else %}
+                    <td><button onclick="location.href='/create-dispatch/{{ord.id}}/'" class="btn-sm btn-outline-success">Dispatch Order</button></td>
+                    {% endif %}
+                    
+                    {% else %}
+                    <td><button onclick="location.href='/create-dispatch/{{ord.id}}/'" class="btn-sm btn-outline-success">Dispatch Order</button></td>
+                    {% endif %}
+                    {% endif %}
+                    <td>
+                        {% if ord.being_delivered %}
+                        <span class="text-success"><i class="fas fa-check-circle"></i></span>
+                        {% else %}
+                        <span class="text-danger"><i class="fas fa-times-circle"></i></span>
+                        {% endif %}
+                    </td>
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          
+          </div>
+        
+    </div>
+
+{% endblock %}

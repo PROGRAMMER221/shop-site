@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container mt-5">
+        <form method="POST">
+            {% csrf_token %}
+                {{form.payment_method}}
+                <button type="submit" class="btn aqua-gradient">Continue</button>
+        </form>
+        <div class="container mt-5">
+            <span class="h5 text-danger">Cash on Delivery Is not available. Sorry For the Inconvience</span>
+        </div>
+    </div>
+
+{% endblock %}

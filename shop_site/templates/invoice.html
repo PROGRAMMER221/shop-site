@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Invoice Id</th>
+            <th scope="col">Order</th>
+            <th scope="col">Amount Paid</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for inv in invoice %}
+          <tr>
+            <td>{{inv.InvoiceId}}</td>
+            <td>
+                <ul class="list-group list-group-flush">
+                    {% for ord in inv.order.items.all %}
+                    <li class="list-group-item">{{ord.item.title}}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>{{inv.order.payment.amount}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}
