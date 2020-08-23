@@ -5,9 +5,9 @@ from django_currentuser.middleware import get_current_user, get_current_authenti
 from django.utils import timezone
 
 LABEL_CHOICES = (
-    ('P', 'primary'),
-    ('S', 'secondary'),
-    ('D', 'danger')
+    ('P', 'NEW'),
+    ('S', 'BestSeller'),
+    ('D', 'Deal Of The Day')
 )
 
 

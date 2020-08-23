@@ -22,24 +22,17 @@
           <div class="dropdown-content">
             <ul class="list-group list-group-flush">
               {% for sub in subcategory %}
-              {% if category.category_title == subcategory.category %}
+              {% if sub.category == cat %}
               <li class="list-group-item list-group-item-action">
                 {{sub.subcategory_title}}
               </li>
               {% endif %}
-              {% endfor %}              
+              {% endfor %}
             </ul>
           </div>
         </li>
         {% endfor %}
-
       </ul>
-
-      <form class="form-inline">
-        <div class="md-form my-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        </div>
-      </form>
     </div>
 
   </nav>
@@ -69,8 +62,8 @@
                   <strong>
                     <a href="/product/{{ item.id }}/" class="dark-grey-text">{{ item.title }}
                       {% if item.get_label_display %}
-                      <span class="productOffer">NEW</span>
-                      <!-- <span class="productOffer">10%<br>OFF</span> -->
+                      
+                      <span class="productOffer">{{ item.get_label_display }}</span>
                       {% endif %}
                     </a>
                   </strong>
